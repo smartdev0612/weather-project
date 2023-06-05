@@ -1,52 +1,56 @@
-import React, { useState, useEffect } from 'react'
-import logo from './logo.svg'
+import React, { useState, useEffect, ChangeEvent } from 'react'
 import './App.css'
-import { createServer, Response } from 'miragejs'
-import data from './data.json'
+import { createMockServer } from './createMockServer'
 
-createServer({
-  routes() {
-    this.get('/api/users', () => {
-      return new Response(401, {}, { errors: ['You are in the wrong place'] })
-    })
-
-    this.get('/api/users/:id', (schema, request) => {
-      const id = parseInt(request.params.id)
-      return [data.find((data) => data.id === id)]
-    })
-
-    this.get('/api/search', (schema, request) => {
-      const query = request.queryParams['query']
-      if (query === 'red') {
-        return [{ id: 1, name: 'red' }]
-      } else {
-        return [{ id: 1, name: 'black' }]
-      }
-    })
-  },
-})
-
-type User = {
-  id: number
+type City = {
+  contry: string
+  lat: number
+  lon: number
   name: string
+  state: string
+}
+
+if (process.env.NODE_ENV === 'development') {
+  createMockServer()
 }
 
 function App() {
-  let [users, setUsers] = useState<User[]>([])
+  const [query, setQuery] = useState<string>('')
+  const [searchResults, setSearchResults] = useState<City[]>([])
 
-  useEffect(() => {
-    fetch(`/api/users`)
-      .then((response) => response.json())
-      .then((json) => setUsers(json))
-  }, [])
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+  }
+
+  const handleClick = () => {
+    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5`)
+      .then((r) => r.json())
+      .then((cities) => {
+        setSearchResults(
+          cities.map((city: any) => ({
+            name: city.name,
+            state: city.state,
+            country: city.country,
+            lat: city.lat,
+            lon: city.lon,
+          }))
+        )
+      })
+  }
 
   return (
     <div className="App">
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
+      <h1>Weather Application</h1>
+      <input type="text" data-testid="search-input" onChange={handleChange} />
+      <button data-testid="search-button" onClick={handleClick}>
+        Search
+      </button>
+
+      <div data-testid="search-results">
+        {searchResults.map((city: City) => (
+          <div key={`${city.lat}-${city.lon}`}>{city.name}</div>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }
