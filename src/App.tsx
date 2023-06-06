@@ -17,6 +17,7 @@ if (process.env.NODE_ENV === 'development') {
 function App() {
   const [query, setQuery] = useState<string>('')
   const [searchResults, setSearchResults] = useState<City[]>([])
+  const [selected, setSelected] = useState<City[]>([])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
@@ -38,6 +39,10 @@ function App() {
       })
   }
 
+  const selectCity = (city: City) => {
+    setSelected([city, ...selected])
+  }
+
   return (
     <div className="App">
       <h1>Weather Application</h1>
@@ -48,7 +53,17 @@ function App() {
 
       <div data-testid="search-results">
         {searchResults.map((city: City) => (
-          <div key={`${city.lat}-${city.lon}`}>{city.name}</div>
+          <div key={`${city.lat}-${city.lon}`} onClick={() => selectCity(city)}>
+            {city.name}, {city.lat}, {city.lon}
+          </div>
+        ))}
+      </div>
+
+      <div data-testid="my-weather-list">
+        {selected.map((city: City) => (
+          <div key={`${city.lat}-${city.lon}`} role="div">
+            {city.name}
+          </div>
         ))}
       </div>
     </div>
