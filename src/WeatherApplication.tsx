@@ -3,6 +3,7 @@ import './App.css'
 import { createMockServer } from './createMockServer'
 import { City } from './types'
 import Search from './Search'
+import { WeatherCard } from './WeatherCard'
 
 if (process.env.NODE_ENV === 'development') {
   createMockServer()
@@ -23,9 +24,7 @@ function WeatherApplication() {
 
       <div data-testid="my-weather-list">
         {selected.map((city: City) => (
-          <div key={`${city.lat}-${city.lon}`} role="div">
-            {city.name}
-          </div>
+          <WeatherCard key={`${city.lat}-${city.lon}`} city={city} />
         ))}
       </div>
     </div>
