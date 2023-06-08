@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'development') {
   createMockServer()
 }
 
-function App() {
+function WeatherApplication() {
   const [selected, setSelected] = useState<City[]>([])
 
   const selectCity = (city: City) => {
@@ -32,4 +32,4 @@ function App() {
   )
 }
 
-export default App
+export default WeatherApplication

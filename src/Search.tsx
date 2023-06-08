@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from 'react'
+import './Search.css'
 import { City } from './types'
 
 const Search = ({ onSelectItem }: { onSelectItem: (city: City) => void }) => {
@@ -25,23 +26,40 @@ const Search = ({ onSelectItem }: { onSelectItem: (city: City) => void }) => {
       })
   }
 
-  return (
-    <div>
-      <input type="text" data-testid="search-input" onChange={handleChange} />
-      <button data-testid="search-button" onClick={handleClick}>
-        Search
-      </button>
+  const onSelect = (city: City) => {
+    onSelectItem(city)
+    setSearchResults([])
+  }
 
-      <div data-testid="search-results">
-        {searchResults.map((city: City) => (
-          <div
-            key={`${city.lat}-${city.lon}`}
-            onClick={() => onSelectItem(city)}
-          >
-            {city.name}, {city.lat}, {city.lon}
-          </div>
-        ))}
+  return (
+    <div className="search-container">
+      <div className="input-container">
+        <input
+          type="text"
+          data-testid="search-input"
+          onChange={handleChange}
+          placeholder="Enter city name (e.g. Melbourne, New York)"
+        />
+        <button data-testid="search-button" onClick={handleClick}>
+          Search
+        </button>
       </div>
+      {searchResults.length > 0 && (
+        <div data-testid="search-results" className="search-results">
+          {searchResults.map((city: City) => (
+            <div
+              className="search-result"
+              key={`${city.lat}-${city.lon}`}
+              onClick={() => onSelect(city)}
+            >
+              <span className="city-name">{city.name}</span>
+              <span className="city-location">
+                {city.lat}, {city.lon}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
