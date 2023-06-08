@@ -22,7 +22,7 @@ function WeatherApplication() {
 
       <Search onSelectItem={selectCity} />
 
-      <div data-testid="my-weather-list">
+      <div data-testid="my-weather-list" className="cities-container">
         {selected.map((city: City) => (
           <WeatherCard key={`${city.lat}-${city.lon}`} city={city} />
         ))}
