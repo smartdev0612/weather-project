@@ -12,7 +12,7 @@ const Search = ({ onSelectItem }: { onSelectItem: (city: City) => void }) => {
 
   const handleClick = () => {
     fetch(
-      `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=d0cc2b3519fce7a70c37f9a4c7e09542`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${process.env.API_KEY}`
     )
       .then((r) => r.json())
       .then((cities) => {

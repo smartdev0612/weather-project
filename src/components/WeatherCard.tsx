@@ -8,7 +8,7 @@ export function WeatherCard({ city }: { city: City }) {
 
   useEffect(() => {
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city.name}&appid=d0cc2b3519fce7a70c37f9a4c7e09542&units=metric`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city.name}&appid=${process.env.API_KEY}&units=metric`
     )
       .then((r) => r.json())
       .then((data) => setWeather(new Weather(data)))
