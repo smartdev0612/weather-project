@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from 'react'
 import './Search.css'
-import { City } from './types'
+import { City } from '../types'
 
 const Search = ({ onSelectItem }: { onSelectItem: (city: City) => void }) => {
   const [query, setQuery] = useState<string>('')
@@ -11,7 +11,9 @@ const Search = ({ onSelectItem }: { onSelectItem: (city: City) => void }) => {
   }
 
   const handleClick = () => {
-    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5`)
+    fetch(
+      `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=d0cc2b3519fce7a70c37f9a4c7e09542`
+    )
       .then((r) => r.json())
       .then((cities) => {
         setSearchResults(

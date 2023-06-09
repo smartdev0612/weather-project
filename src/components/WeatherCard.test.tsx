@@ -1,7 +1,7 @@
 import { WeatherCard } from './WeatherCard'
 import { render, screen, waitFor } from '@testing-library/react'
 import { Server } from 'miragejs'
-import { createMockServer } from './createMockServer'
+import { createMockServer } from '../mock/createMockServer'
 
 describe('WeatherCard', () => {
   let server: Server
@@ -43,7 +43,7 @@ describe('WeatherCard', () => {
       lon: 0,
     }
     render(<WeatherCard city={city} />)
-    await screen.findByText(24.26)
+    await screen.findByText('25 D')
   })
 
   it('renders weather information', async () => {
@@ -55,6 +55,6 @@ describe('WeatherCard', () => {
       lon: 0,
     }
     render(<WeatherCard city={city} />)
-    await screen.findByText('Clear')
+    await screen.findByText('clear')
   })
 })

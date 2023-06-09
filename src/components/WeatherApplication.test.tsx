@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import WeatherApplication from './WeatherApplication'
 import { Server } from 'miragejs'
-import { createMockServer } from './createMockServer'
+import { createMockServer } from '../mock/createMockServer'
 import userEvent from '@testing-library/user-event'
 
 describe('Weather Application', () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
 import './App.css'
-import { createMockServer } from './createMockServer'
-import { City } from './types'
+import { createMockServer } from '../mock/createMockServer'
+import { City } from '../types'
 import Search from './Search'
 import { WeatherCard } from './WeatherCard'
 
