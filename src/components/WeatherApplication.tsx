@@ -1,14 +1,15 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
 import './App.css'
-import { createMockServer } from './createMockServer'
-import { City } from './types'
+import { createMockServer } from '../mock/createMockServer'
+import { City } from '../types'
 import Search from './Search'
+import { WeatherCard } from './WeatherCard'
 
 if (process.env.NODE_ENV === 'development') {
   createMockServer()
 }
 
-function App() {
+function WeatherApplication() {
   const [selected, setSelected] = useState<City[]>([])
 
   const selectCity = (city: City) => {
@@ -21,15 +22,13 @@ function App() {
 
       <Search onSelectItem={selectCity} />
 
-      <div data-testid="my-weather-list">
+      <div data-testid="my-weather-list" className="cities-container">
         {selected.map((city: City) => (
-          <div key={`${city.lat}-${city.lon}`} role="div">
-            {city.name}
-          </div>
+          <WeatherCard key={`${city.lat}-${city.lon}`} city={city} />
         ))}
       </div>
     </div>
   )
 }
 
-export default App
+export default WeatherApplication

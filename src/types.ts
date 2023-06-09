@@ -1,5 +1,5 @@
 export type City = {
-  contry: string
+  country: string
   lat: number
   lon: number
   name: string
